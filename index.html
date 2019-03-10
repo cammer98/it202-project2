@@ -44,11 +44,11 @@
     <!-- SEARCH -->
   <div class="content" id="search">
         <form name="searchChoice">
-          Search by Ward or Status:<br>
-          <input type="text" name="wardOrStaus" id="searchinput">
-          <select>
-              <option value="ward">Ward</option>
-              <option value="status">Status</option>
+          Search by Ward and choose status:<br>
+          <input type="text" name="wardInput" id="searchinput">
+          <select id="selection">
+              <option value="open">Open</option>
+              <option value="completed">Completed</option>
           </select><br>
             <button id="searchbutton">Search</button>
         </form>
@@ -56,9 +56,11 @@
   </div>
     <!-- LIST -->
   <div class="content" id="list">
+      <div id="cards"></div>
       <div class="card template" style="width: 18rem;">
 		<div class="card-body">
 			<h5 class="card-title">Card title</h5>
+            <h6 class="card-location">Zip</h6>
 			<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
 			<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 			<a href="#" class="card-link">Card link</a>
@@ -69,27 +71,26 @@
 			$(document).ready(function(){
 
           var url = "https://data.cityofchicago.org/resource/cdmx-wzbz.json?$limit=5";
-          //var choice = document.forms["searchChoice"]["wardOrStatus"].value;
-          //console.log(choice)
-//           $("#searchbutton").on("click", function() {
-//             // clear the display
-//             $("#cards").empty();
-//             var searchString = $("#searchinput").val();
-//             console.log(searchString);
-//             if(choice=="Ward"){
-//                 var url = endpoint + "&ward=" + searchString;
-//                 console.log(url);
-//             }else{
-//                 var url = endpoint + "&status=" + searchString;
-//                 console.log(url);
-//             }
-//           });
+          var choice = document.getElementById("selection").value;
+          console.log(choice)
+          $("#searchbutton").on("click", function() {
+            // clear the display
+            $("#cards").empty();
+            var searchString = $("#searchinput").val();
+            console.log(searchString);
+            if(choice=="Open"){
+                var url = endpoint + "&status=Open&ward=" + searchString;
+                console.log(url);
+            }else{
+                var url = endpoint + "&status=Completed&ward=" + searchString;
+                console.log(url);
+            }
+          });
 
       $.get(url, function(response) {
           console.log(response);
-
+          $("#cards").append("<h2>Your query returned " + response.length + " records.</h2>");
           var data = response;
-
           $.each(data, function(i,v){
             //console.log(i,v);
 
@@ -97,8 +98,10 @@
             var clone = $(".template").clone();
             // update values
             clone.find(".card-title").text(v.street_address);
-
-
+            clone.find(".card-location").text(v.zip_code);              
+            clone.find(".card-subtitle").text(v.status);
+            clone.find(".card-text").text(v.what_type_of_surface_is_the_graffiti_on_);
+               
 
 //             clone.find(".card-title").addClass(v.results);
 
@@ -119,7 +122,7 @@
 
 
             // insert into DOM
-            $("body").append(clone);
+            $("#list").append(clone);
           })
           })
         });
