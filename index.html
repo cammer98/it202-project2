@@ -60,10 +60,14 @@
       <div id="cards"></div>
       <div class="card template" style="width: 18rem;">
 		<div class="card-body">
-			<h5 class="card-title">Card title</h5>
-            <h6 class="card-location">Zip</h6>
-			<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-			<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+			<h5 class="card-address"> Address</h5>
+            <h6 class="card-request">Request</h6>
+			<h6 class="card-location">Location</h6>
+            <h6 class="card-surface">Surface</h6>
+            <h6 class="card-creation">Creation</h6>
+            <h6 class="card-status">Status</h6>
+            <h6 class="card-completion">Completion</h6>
+           
 			<a href="#" class="card-link">Card link</a>
 			<a href="#" class="card-link">Show on Map</a>
 		</div>
@@ -98,10 +102,13 @@
             // clone card
             var clone = $(".template").clone();
             // update values
-            clone.find(".card-title").text(v.street_address);
-            clone.find(".card-location").text(v.zip_code);              
-            clone.find(".card-subtitle").text(v.status);
-            clone.find(".card-text").text(v.what_type_of_surface_is_the_graffiti_on_);
+            clone.find(".card-address").text("Street Address: " + v.street_address);
+            clone.find(".card-request").text("Request Number: " + v.service_request_number);              
+            clone.find(".card-location").text("Location: " +v.where_is_the_graffiti_located_);
+            clone.find(".card-surface").text("Surface: " + v.what_type_of_surface_is_the_graffiti_on_);
+            clone.find(".card-creation").text("Date Created: " + v.creation_date);
+            clone.find(".card-status").text("Status: " + v.status);
+            clone.find(".card-completion").text("Date Completed: " + v.completion_date);
                
 
 //             clone.find(".card-title").addClass(v.results);
@@ -142,20 +149,24 @@
   <div class="content" id="map">
   <script>
   var map;
+  //Global map variable
+  var markers = [];
   function initMap() {
-  // The location of Uluru
+  // The location of Chicago
   var chicago = {lat: 41.8781, lng: -87.6298};
-  // The map, centered at Uluru
+  // The map, centered at Chicago
   
   map = new google.maps.Map(
       document.getElementById('map'), {zoom: 11, center: chicago});
 
             }
   
-  var choice = document.getElementById("selection").value;
   var endpoint = "https://data.cityofchicago.org/resource/cdmx-wzbz.json?$limit=5";
   
   $("#searchbutton").on("click", function() {
+      deleteMarkers();  //Clear Map after each search
+      var choice = document.getElementById("selection").value;
+      
       var searchString = $("#searchinput").val();
       if(choice=="open"){
                 var url = endpoint + "&status=Open&ward=" + searchString;
@@ -176,20 +187,41 @@
         $.each(data, function(i,v) {
 
           var location = {lat: parseFloat(v.latitude), lng: parseFloat(v.longitude) }
+        if(v.status=="Completed"){
+          var marker = new google.maps.Marker({position: location, map: map, icon: {
+          url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+        }});
+        }else{
+            var marker = new google.maps.Marker({position: location, map: map});
+        }
+          markers.push(marker);
+            
+          var infowindow = new google.maps.InfoWindow({
+            content: "Address: " + v.street_address + ", Service Request Number: " +
+              v.service_request_number + ", Location: " + v.where_is_the_graffiti_located_
+              + ", Surface: " + v.what_type_of_surface_is_the_graffiti_on_ + ", Date Created: "
+              + v.creation_date + ", Status: " + v.status
+          });
 
-          var marker = new google.maps.Marker({position: location, map: map});
-
-//           var infowindow = new google.maps.InfoWindow({
-//             content: v.dba_name
-//           });
-
-//           marker.addListener('click', function() {
-//             infowindow.open(map, marker);
-//           });
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
 
         });
 
   }
+      function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+      function clearMarkers() {
+        setMapOnAll(null);
+      }
+      function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+      }
   
   
       </script>
