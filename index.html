@@ -141,28 +141,35 @@
     <!-- MAP -->
   <div class="content" id="map">
   <script>
+  var map;
   function initMap() {
   // The location of Uluru
   var chicago = {lat: 41.8781, lng: -87.6298};
   // The map, centered at Uluru
+  
+  map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 11, center: chicago});
+
+            }
+  
   var choice = document.getElementById("selection").value;
   var endpoint = "https://data.cityofchicago.org/resource/cdmx-wzbz.json?$limit=5";
-  var searchString = $("#searchinput").val();
-  var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 11, center: chicago});
+  
+  $("#searchbutton").on("click", function() {
+      var searchString = $("#searchinput").val();
       if(choice=="open"){
                 var url = endpoint + "&status=Open&ward=" + searchString;
-                console.log(url);
+                console.log("url: " + url);
             }else{
                 var url = endpoint + "&status=Completed&ward=" + searchString;
-                console.log(url);
+                console.log("url: " + url);
             }
-  $.get(url, function(response) {
-        console.log("in data callback");
-        var data = response;
-        createMarkers(map, data );
-      });
-
+      $.get(url, function(response) {
+            console.log("in data callback");
+            var data = response;
+            createMarkers(map, data );
+          });
+  })
 
       function createMarkers (map, data) {
         console.log(data);
@@ -183,13 +190,14 @@
         });
 
   }
-  }
+  
+  
       </script>
     This is screen 3
   </div>
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
       
 
