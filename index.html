@@ -20,8 +20,8 @@
 </head>
 
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-	 crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+	 crossorigin="anonymous"></script> -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="#">Navbar</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,25 +52,10 @@
           </select><br>
             <button id="searchbutton">Search</button>
         </form>
-      
-  </div>
-    <!-- LIST -->
-  <div class="content" id="list">
-      <div id="cards"></div>
-      <div class="card template" style="width: 18rem;">
-		<div class="card-body">
-			<h5 class="card-title">Card title</h5>
-            <h6 class="card-location">Zip</h6>
-			<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-			<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-			<a href="#" class="card-link">Card link</a>
-			<a href="#" class="card-link">Another link</a>
-		</div>
-	</div>
-      	<script>
+      <script>
 			$(document).ready(function(){
 
-          var url = "https://data.cityofchicago.org/resource/cdmx-wzbz.json?$limit=5";
+          var endpoint = "https://data.cityofchicago.org/resource/cdmx-wzbz.json?$limit=5";
           var choice = document.getElementById("selection").value;
           console.log(choice)
           $("#searchbutton").on("click", function() {
@@ -78,16 +63,14 @@
             $("#cards").empty();
             var searchString = $("#searchinput").val();
             console.log(searchString);
-            if(choice=="Open"){
+            if(choice=="open"){
                 var url = endpoint + "&status=Open&ward=" + searchString;
                 console.log(url);
             }else{
                 var url = endpoint + "&status=Completed&ward=" + searchString;
                 console.log(url);
             }
-          });
-
-      $.get(url, function(response) {
+         $.get(url, function(response) {
           console.log(response);
           $("#cards").append("<h2>Your query returned " + response.length + " records.</h2>");
           var data = response;
@@ -123,10 +106,29 @@
 
             // insert into DOM
             $("#list").append(clone);
+            $("#search").hide();
+            $("#list").show();
+          })
           })
           })
         });
       </script>
+      
+  </div>
+    <!-- LIST -->
+  <div class="content" id="list">
+      <div id="cards"></div>
+      <div class="card template" style="width: 18rem;">
+		<div class="card-body">
+			<h5 class="card-title">Card title</h5>
+            <h6 class="card-location">Zip</h6>
+			<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+			<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+			<a href="#" class="card-link">Card link</a>
+			<a href="#" class="card-link">Another link</a>
+		</div>
+	</div>
+      	
     This is screen 2
   </div>
   <div class="content" id="map">
@@ -156,10 +158,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
 
 	</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
 	 crossorigin="anonymous">
 
-	</script>
+	</script> -->
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
   </body>
