@@ -17,7 +17,7 @@
 
 version = '1.0';
 
-let cacheName = '311Puller_' + version;
+let cacheName = 'pwaBasic_' + version;
 
 self.addEventListener('install', e => {
   let timeStamp = Date.now();
