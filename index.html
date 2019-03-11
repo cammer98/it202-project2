@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html class="mdc-typography">
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<title>3 screen app</title>
+	<link rel='manifest' href='./manifest.json'>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>311 Puller</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	 crossorigin="anonymous">
 	
@@ -24,6 +25,14 @@
 </head>
 
 <body>
+    <script>
+        // register the service worker for offline use
+        if('serviceWorker' in navigator) {
+          navigator.serviceWorker
+                   .register('./sw.js')
+                   .then(function() { console.log("Service Worker Registered"); });
+        }
+    </script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
 	 crossorigin="anonymous"></script> -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">

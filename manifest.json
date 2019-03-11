@@ -1,0 +1,14 @@
+{
+  "name": "311 Puller",
+  "short_name": "311",
+  "icons": [ {
+        "src": "./311-srmap.png",
+        "type": "image/png",
+        "sizes": "144x144"
+      }],
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#2196F3",
+  "theme_color": "#2196F3"
+}
