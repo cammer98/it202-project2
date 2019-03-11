@@ -200,9 +200,8 @@
 
           var location = {lat: parseFloat(v.latitude), lng: parseFloat(v.longitude) }
         if(v.status=="Completed"){
-          var marker = new google.maps.Marker({position: location, map: map, icon: {
-          url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-        }});
+          var marker = new google.maps.Marker({position: location, map: map, icon: "./green-dot.png"
+        });
         }else{
             var marker = new google.maps.Marker({position: location, map: map});
         }
